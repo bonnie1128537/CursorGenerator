@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<!-- Fig. 13.3: draw.html -->
+<!-- A simple drawing program. -->
+<html>
+   <head>
+      <meta charset = "utf-8">
+      <title>Simple Drawing Program</title>
+      <style type = "text/css">
+		@media only screen and (max-width: 600px) 
+			{
+			.n{width: 100%;}
+		}
+		#canvasId { float: left;
+				background-color: transparent;
+				border-collapse: collapse ;
+				margin: 20px;}
+		body 	{background: lightyellow;}
+		li		{font-family: Helvetica, "Microsoft YaHei", "LiHei Pro", TW-Kai; 
+				 font-align :center;
+				 font-size: 20px;
+				 letter-spacing: 1px;
+				 margin: 2px;
+				 color: navy;}
+		div		{ float: left; width: 50%; height: 550px; margin: 10px; padding: 0, 0, 0, 0%;}
+		td      { width: 25px; height: 25px; margin: 0px; padding: 0px; border-style:solid; border-width:0.2px; background:transparent;}
+		fieldset { width: 700px; height: 700px; margin-top: 3px; }
+		button	{margin-left: 15px;}
+		.button1 {
+					width: 100px; height: 40px;
+					border-style: dashed;
+					border-color: #FF5959;
+					font-family: Helvetica, "Microsoft YaHei", "LiHei Pro", TW-Kai;
+					text-align: center;
+					font-size: 30px;
+					color: #FF5959;
+					width:100px;
+					float:right;
+					position:fixed;
+					right:20px;
+				}
+		.button1:hover{color: #ff921a;}
+		div:hover{cursor: 'url("' + localStorage.getItem("cursor") + '"),auto';}
+	  </style>
+	  
+	  </head>
+	  <body>
+		<table id = "canvasId">
+		  <tbody id = "tablebody"></tbody>
+		</table>
+		<div>
+			<li>畫圖方式: 按下Ctrl鍵移動滑鼠就可以上色</li>
+			<li>擦去: 按下Eraser鍵, 依舊搭配Ctrl鍵移動滑鼠就會刪去</li>
+			<li>按下Reset鍵可全部清除, 重新作畫</li>
+			<li>按下Create Cursor鍵就可儲存圖片,此網頁游標也會自動轉換</li>
+			<li>按下Remove Cursor鍵, 取消游標,回復為預設游標</li>
+		</div>
+		
+		<button id="eraser" onclick = "clearEarse()"; >Eraser</button>
+		<button id="export">Create Cursor</button>
+		<input type="color" id= "chooseColor" value = "#000000">
+		<input id = "clearCanvas" type = "button" value = "Reset">
+		<button id = "remove" onclick = "RemoveCurse()" value = "Remove cursor">Remove Cursor</button>
+		<a href = "index.html">
+		<div class = "button1" id = "網頁說明文件下載">回首頁</div>
+		</a>
+		
+	<script src="http://v.ihuaduo.cn/template/js/DD_belatedPNG_0.0.8a-min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="http://zikro.gr/dbg/html/tableExport/tableExport.jquery.plugin/tableExport.js"></script>
+	<script src="http://zikro.gr/dbg/html/tableExport/tableExport.jquery.plugin/html2canvas.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script>
+	 var side = 20;
+	 var fillColor = null;
+	 var earse = 0;
+		function createCanvas()
+		{ 
+				if(localStorage.getItem("cursor"))
+				document.body.style.cursor = 'url("' + localStorage.getItem("cursor") + '"),auto';
+		   var tbody = document.getElementById( "tablebody" );
+		  
+		   for ( var i = 0; i < side; ++i )
+		   {
+			  var row = document.createElement( "tr" );
+			   
+			  for ( var j = 0; j < side; ++j )
+			  {
+				 var cell = document.createElement( "td" ); 
+				
+				 cell.style.backgroundColor = "rgb(0,0,0,0)"//"transparent";
+				 row.appendChild( cell );
+				
+			  } // end for
+
+			  tbody.appendChild( row );
+		   } // end for
+			
+		  document.getElementById( "canvasId" ).addEventListener( 
+			  "mousemove", processMouseMove, false );  
+			  
+			var buttonclearCanvas = document.getElementById("clearCanvas");
+			buttonclearCanvas.addEventListener("click", clear_canvas, false); // function
+		} // end function createCanvas
+
+		// processes the onmousemove event
+		function RemoveCurse()
+		{
+			localStorage.removeItem('cursor');
+			document.body.style.cursor = "auto";
+		}
+		function processMouseMove(e)
+		{
+			if(earse == 1) document.getElementById("tablebody").style.cursor = "url('Eraser-icon.png'),auto";
+			else document.getElementById("tablebody").style.cursor = "url('NWPen.cur'),auto";
+			if ( e.target.tagName.toLowerCase() == "td" )
+			{
+				if ( e.ctrlKey )
+			  {
+				if(earse == 1)
+				{
+					fillColor = null;
+
+				}
+				else
+				{
+					fillColor = document.getElementById( "chooseColor" ).value;
+				}
+				e.target.style.backgroundColor = fillColor;
+			  }
+			  
+			}
+		} // end function processMouseMove
+		function backtomain()
+		{
+			web = document.getElementById("site");
+			web.setAttribute("src", "index.html");
+		}
+		function clearEarse()
+		{
+			earse = 1;
+			//document.getElementById("tablebody").style.cursor = "url('Eraser-icon.png',auto)";
+		}
+		function clear_canvas()
+		{
+			var myNode = document.getElementById("tablebody");
+			while (myNode.firstChild) 
+			{
+				myNode.removeChild(myNode.firstChild);
+			}
+			//var tbody = document.getElementsByTagName( "tr" );
+			//tbody.removeChild(tbody);
+			createCanvas();
+		}
+		$('#chooseColor').on('click', function() { earse = 0;});
+		
+		$('#export').on('click', function() {
+			//console.log('exporting');
+			//$('#preview-table').tableExport({type:'png',escape:'false'});
+			//縮小table
+			DD_belatedPNG.fix('tbody,background');
+			$(document).ready(function()
+							  {
+								$("td").css("width","1px");
+								$("td").css("height","1px");
+							  });
+			//
+			html2canvas($('#canvasId'), {
+				onrendered: function(canvas) {					
+					var img = canvas.toDataURL("image/png"); 
+					//var img = canvas.toDataURL("application/octet-stream");
+					//img.globalAlpha = 0;
+					function saveAs(uri, filename) {
+						var link = document.createElement('a');
+						if (typeof link.download === 'string') {
+							document.body.appendChild(link); // Firefox requires the link to be in the body
+							link.download = filename;
+							link.href = uri;
+							
+							link.click();
+							document.body.removeChild(link); // remove the link when done
+						} else {
+							location.replace(uri);
+						}
+					}
+					var uri = img.replace(/^data:image\/[^;]/, 'data:application/octet-stream');
+					localStorage.setItem("cursor", uri); //set cursor link
+					//window.open(url);
+					saveAs(uri, 'cursor.png');
+					$(document).ready(function()
+							  {
+								$("td").css("width","25px");
+								$("td").css("height","25px");
+							  });
+					var getS = localStorage.getItem("cursor");
+					document.body.style.cursor = 'url("' + getS + '"),auto';
+				}
+			});	
+		});
+		/*
+		<caption>Hold <em>Ctrl</em> (or <em>Control</em>) to draw blue. 
+            Hold <em>Shift</em> to draw red.</caption>
+		*/
+		window.addEventListener( "load", createCanvas, false );	
+	  </script>
+   </body>
+</html>
