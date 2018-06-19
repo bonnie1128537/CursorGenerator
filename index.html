@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta charset = "utf-8">
+		<title>Cursor Generator</title> 
+		<style type = "text/css">
+			/* width */
+			::-webkit-scrollbar {
+				width: 10px;
+			}
+
+			/* Track */
+			::-webkit-scrollbar-track {
+				background: #fcedab; 
+			}
+			 
+			/* Handle */
+			::-webkit-scrollbar-thumb {
+				background: #FF5959; 
+			}
+
+			/* Handle on hover */
+			::-webkit-scrollbar-thumb:hover {
+				background: #ff921a; 
+			}
+		
+			html {width: 100%;
+				  height: 120%;
+				  }
+			body {background-image: url("background.png");
+				  background-attachment: fixed ;
+				  background-repeat: repeat-y;
+				  background-size: cover;
+				  overflow: scroll;
+				  overflow-x: hidden;
+				  min-width: 100%;
+				  min-height: 120%;
+				  margin: 0px;
+				  }
+			.title {font-family: Helvetica, "Microsoft YaHei", "LiHei Pro", TW-Kai;
+					margin: 0px 300px 40px 120px;
+					padding: 60px 0px 0px 0px;
+					line-height: 15px
+					}
+			iframe {margin: 0px 30px 20px 110px;
+					overflow: scroll;
+					border-style: dashed;
+					border-color: #FF5959;
+					width: 63%;
+					height: 65vh;
+					display:block;
+					z-index: 0;
+					position:absolute;
+					}
+			.setcursor {
+					margin: 0px 30px 20px 104px;
+					width: 63%;
+					height: 65vh;
+					z-index: 1;
+					display:block;
+					position:absolute;
+				}
+			.button {
+					border-style: dashed;
+					border-color: #FF5959;
+					margin: 20px 0px 20px 78%;
+					padding: 5px 30px 5px 30px;
+					font-family: Helvetica, "Microsoft YaHei", "LiHei Pro", TW-Kai;
+					width: 10%;
+					text-align: center;
+					font-size: 30px;
+					color: white;
+				}
+			.button:hover{color: #3E2923;}
+			.messageBox{
+					margin: 0px 30px 20px 110px;
+					padding: 20px 0px 0px 0px;
+					width: 35%;
+					height: 40vh;
+			}
+			a {text-decoration: none;}
+
+		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script>
+		//padding 上右下左
+			var getS = localStorage.getItem("cursor");
+			//document.body.style.cursor = 'url("' + getS + '"),auto';
+			
+			var list, index;
+			var li, idx;
+			var web;
+			function setCursor()
+			{
+			 document.body.style.cursor = "url(cur273.cur), auto";
+			 list = document.getElementsByClassName("setcursor");
+			 for(index = 0; index < list.length; ++index){
+				list[index].setAttribute("style", "cursor: url(cur273.cur), auto");
+			 }
+			}
+			
+			function changeSite( name )
+			{
+				if(name == "設定電腦游標"||name == "網頁說明文件下載"||name == "製作游標"){
+					if(name == "設定電腦游標"){
+						
+					}
+					else if(name == "製作游標"){
+					
+					}
+					else{//網頁說明文件下載
+						
+					}
+				}
+				else {
+					web.setAttribute("src", name+".html");
+				}
+			}
+			
+			function start()
+			{
+				setCursor();
+				web = document.getElementById("site");
+				li = document.getElementsByClassName("button");
+				
+				for(idx = 0; idx < li.length; ++idx){
+					li[idx].addEventListener('click', function(){changeSite(this.id)});
+				}
+			}
+			
+			window.addEventListener( "load", start, false );
+		</script>
+	</head>
+	<body>
+		<div class = "title">
+			<span style = "color: white; font-size: 70px" >Cursor Generator</br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<span style = "font-size: 25px" >游標產生器</span></span>
+			
+		</div>
+		<div class = "content">
+			<iframe id = "site" src="主頁說明.html"></iframe>
+			<div class="setcursor"></div>
+		</div>
+		<div class = "button" id = "主頁說明">主頁說明</div>
+		<div class = "button" id = "製作游標">製作游標</div>
+		<div class = "button" id = "製作規則">製作規則</div>
+		<div class = "button" id = "設定電腦游標">設定電腦游標</div>
+		<a href = "07-00557031-00557027-Cursor_Generator-期中提案.pptx" target="_blank">
+		<div class = "button" id = "網頁說明文件下載">網頁說明文件下載</div>
+		</a>
+		<div class = "bottom">
+			<div></div>
+			<iframe class = "messageBox"src="https://www2.cbox.ws/box/?boxid=2399908&boxtag=8iidZD" width="100%" height="450" allowtransparency="yes" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>	
+		</div>
+		
+	</body>
+</html>
