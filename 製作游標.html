@@ -33,13 +33,13 @@
 					font-family: Helvetica, "Microsoft YaHei", "LiHei Pro", TW-Kai;
 					text-align: center;
 					font-size: 30px;
-					color: #FF5959;
+					color: red;
 					width:100px;
 					float:right;
 					position:fixed;
 					right:20px;
 				}
-		.button1:hover{color: #ff921a;}
+		.button1:hover{color: blue;}
 		div:hover{cursor: 'url("' + localStorage.getItem("cursor") + '"),auto';}
 	  </style>
 	  
@@ -60,7 +60,6 @@
 		<button id="export">Create Cursor</button>
 		<input type="color" id= "chooseColor" value = "#000000">
 		<input id = "clearCanvas" type = "button" value = "Reset">
-		<button id = "remove" onclick = "RemoveCurse()" value = "Remove cursor">Remove Cursor</button>
 		<a href = "index.html">
 		<div class = "button1" id = "網頁說明文件下載">回首頁</div>
 		</a>
@@ -77,7 +76,9 @@
 		function createCanvas()
 		{ 
 				if(localStorage.getItem("cursor"))
-				document.body.style.cursor = 'url("' + localStorage.getItem("cursor") + '"),auto';
+					document.body.style.cursor = 'url("' + localStorage.getItem("cursor") + '"),auto';
+				else
+					document.body.style.cursor = "url(cur273.cur), auto";
 		   var tbody = document.getElementById( "tablebody" );
 		  
 		   for ( var i = 0; i < side; ++i )
@@ -104,9 +105,10 @@
 		} // end function createCanvas
 
 		// processes the onmousemove event
+		//<button id = "remove" onclick = "RemoveCurse()" value = "Remove cursor">Remove Cursor</button>
 		function RemoveCurse()
 		{
-			localStorage.removeItem('cursor');
+			//localStorage.removeItem('cursor');
 			document.body.style.cursor = "auto";
 		}
 		function processMouseMove(e)

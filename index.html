@@ -112,6 +112,7 @@
 			var getS = localStorage.getItem("cursor");
 			//document.body.style.cursor = 'url("' + getS + '"),auto';
 			
+			//var cursorShow = 0; //0: 隱藏游標 1: 顯示游標
 			var list, index;
 			var li, idx;
 			var web;
@@ -126,19 +127,30 @@
 					document.body.style.cursor = "url(cur273.cur), auto";
 					list = document.getElementsByClassName("setcursor");
 					for(index = 0; index < list.length; ++index){
-					list[index].setAttribute("style", "cursor: url(cur273.cur), auto");
+						list[index].setAttribute("style", "cursor: url(cur273.cur), auto");
 					}
 				}
 			}
 			
 			function changeSite( name )
 			{
-				if(name == "設定電腦游標"||name == "網頁說明文件下載"||name == "製作游標"){
+				if(name == "設定電腦游標"||name == "網頁說明文件下載"||name == "製作游標" ||name == "回復游標" ||name == "取消游標"){
 					if(name == "設定電腦游標"){
 						
 					}
 					else if(name == "製作游標"){
 					
+					}
+					else if(name == "回復游標"){
+						localStorage.setItem("cursor", localStorage.getItem("cursor1"));
+						localStorage.removeItem("cursor1");
+						document.body.style.cursor = 'url("' + localStorage.getItem("cursor") + '"),auto';
+					}
+					else if(name == "取消游標"){
+						//cursorShow = 0;
+						localStorage.setItem("cursor1", localStorage.getItem("cursor"));
+						localStorage.removeItem("cursor");
+						document.body.style.cursor = "url(cur273.cur), auto";
 					}
 					else{//網頁說明文件下載
 						
@@ -179,6 +191,8 @@
 		<a href = "https://support.microsoft.com/zh-tw/help/14206/windows-7-change-mouse-settings" target = "_blank">
 		<div class = "button" id = "設定電腦游標">設定電腦游標</div>
 		</a>
+		<div class = "button" id = "取消游標">取消游標</div>
+		<div class = "button" id = "回復游標">回復游標</div>
 		<a href = "00557031+00557027.pptx" target="_blank">
 		<div class = "button" id = "網頁說明文件下載">網頁說明文件下載</div>
 		</a>
